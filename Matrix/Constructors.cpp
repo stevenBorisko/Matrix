@@ -1,58 +1,37 @@
 #include "Matrix.hpp"
 
 Matrix::Matrix():
-	data_rows(nullptr), data_columns(nullptr),
-	row_count(0), column_count(0)
+	data(nullptr), row_count(0), col_count(0)
 { }
 
 Matrix::Matrix(const size_t& squareDim):
-	data_rows(nullptr), data_columns(nullptr),
-	row_count(squareDim), column_count(squareDim)
+	data(nullptr), row_count(squareDim), col_count(squareDim)
 {
-	this->data_rows = Matrix::createMatrix(
-		this->rowCount(), this->columnCount()
-	);
-
-	this->data_columns = Matrix::transposeMatrixShallow(
-		this->data_rows, this->rowCount(), this->columnCount()
-	);
-
+	if(!squareDim) return;
+	data = Matrix::createMatrix(this->rowCount(), this->colCount());
+	// make this an identity matrix
 	for(size_t i = 0;i < squareDim;++i)
-		*(data_rows[i][i]) = 1.0;
-
+		data[i][i] = 1.0;
 }
 
 Matrix::Matrix(const size_t& rowDim, const size_t& columnDim):
-	data_rows(nullptr), data_columns(nullptr),
-	row_count(rowDim), column_count(columnDim)
+	data(nullptr), row_count(rowDim), col_count(columnDim)
 {
-	this->data_rows = Matrix::createMatrix(
-		this->rowCount(), this->columnCount()
-	);
-
-	this->data_columns = Matrix::transposeMatrixShallow(
-		this->data_rows, this->rowCount(), this->columnCount()
-	);
+	if(!this->rowCount() || !this->colCount()) return;
+	data = Matrix::createMatrix(this->rowCount(), this->colCount());
 }
 
 Matrix::Matrix(const Matrix& other):
-	data_rows(nullptr), data_columns(nullptr),
-	row_count(other.rowCount()), column_count(other.columnCount())
+	data(nullptr),
+	row_count(other.rowCount()), col_count(other.colCount())
 {
-
 	// case trivial: other is empty
-	if(!this->rowCount() || !this->columnCount()) return;
+	if(!this->rowCount() || !this->colCount()) return;
 
-	this->data_rows = Matrix::copyMatrixDeep(
-		(const double***)other.data_rows,
-		other.rowCount(),
-		other.columnCount()
-	);
-
-	this->data_columns = Matrix::transposeMatrixShallow(
-		this->data_rows, this->rowCount(), this->columnCount()
-	);
-
+	data = Matrix::createMatrix(this->rowCount(), this->colCount());
+	for(size_t j = 0;j < this->rowCount();++j)
+		for(size_t i = 0;i < this->colCount();++i)
+			data[j][i] = other.data[j][i];
 }
 
 Matrix::~Matrix() {

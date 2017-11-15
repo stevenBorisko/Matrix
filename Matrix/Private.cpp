@@ -1,10 +1,13 @@
 #include "Matrix.hpp"
 
 void Matrix::destroyMatrix() {
-	Matrix::destroyMatrixDeep(data_rows,this->rowCount(),this->columnCount());
-	Matrix::destroyMatrixShallow(data_columns,this->columnCount());
-	this->data_rows = nullptr;
-	this->data_columns = nullptr;
+	if(this->data) {
+		for(size_t j = 0;j < this->rowCount();++j)
+			if(this->data[j])
+				delete[] this->data[j];
+		delete[] this->data;
+	}
+	this->data = nullptr;
 	this->row_count = 0;
 	this->column_count = 0;
 }

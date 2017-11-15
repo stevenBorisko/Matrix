@@ -10,46 +10,44 @@ Matrix& Matrix::Matrix::operator=(const Matrix& rhs) {
 	// make new arrays for this matrix
 	if(
 		(this->rowCount() != rhs.rowCount())
-		|| (this->columnCount() != rhs.columnCount())
+		|| (this->colCount() != rhs.colCount())
 	)	{
 
 		this->destroyMatrix();
 
-		this->row_count = rhs.rowCount();
-		this->column_count = rhs.columnCount();
-
 		// case other is empty
-		if(!this->rowCount() || !this->columnCount()) {
-			this->row_count = 0;
-			this->column_count = 0;
+		if(!rhs.rowCount() || !rhs.colCount())
 			return *this;
-		}
 
-		this->data_rows = Matrix::copyMatrixDeep(
-			(const double***)rhs.data_rows,
-			rhs.rowCount(),
-			rhs.columnCount()
-		);
+		this->row_count = rhs.rowCount();
+		this->column_count = rhs.colCount();
 
-		this->data_columns = Matrix::transposeMatrixShallow(
-			this->data_rows, this->rowCount(), this->rowCount()
-		);
+		this->data = Matrix::createMatrix(this->rowCount(), this->colCount());
+
+		for(size_t j = 0;j < this->rowCount();++j)
+			for(size_t i = 0;i < this->colCount();++i)
+				(*this)[j][i] = rhs[j][i];
 
 		return *this;
 	}
 
 	// case this is empty meaning rhs is empty
-	if(!this->rowCount() || !this->columnCount()) return *this;
-
-	// At this point, data_rows and data_columns exist and aren't empty
-	// for this and the dimensions are the same for both objects
+	if(!this->rowCount() || !this->colCount()) return *this;
 
 	// copy rhs.data into this->data
 	for(size_t j = 0;j < this->rowCount();++j)
-		for(size_t i = 0;i < this->columnCount();++i)
-			this->setAt(j,i,*rhs.data_rows[j][i]);
+		for(size_t i = 0;i < this->colCount();++i)
+			(*this)[j][i] = rhs[j][i];
 
 	return *this;
+}
+
+double* Matrix::operator[](const size_t& rIndex) const {
+	return this->data[rIndex];
+}
+
+double* Matrix::operator[](const size_t& rIndex) {
+	return this->data[rIndex];
 }
 
 	// Binary
@@ -82,35 +80,35 @@ Matrix Matrix::operator*(const double& rhs) const {
 
 Matrix& Matrix::operator+=(const Matrix& rhs) {
 	if(	this->rowCount() != rhs.rowCount()
-		|| this->columnCount() != rhs.columnCount()
+		|| this->colCount() != rhs.colCount()
 	) {
 		std::cerr << "ERROR - Matrix::operator+=(const Matrix& rhs)\n";
 		std::cerr << "\tthis dimensions != rhs dimensions\n";
 		return *this;
 	}
 	for(size_t j = 0;j < this->rowCount();++j)
-		for(size_t i = 0;i < this->columnCount();++i)
-			this->setAt(j, i, this->at(j,i) + rhs.at(j,i));
+		for(size_t i = 0;i < this->colCount();++i)
+			(*this)[j][i] += rhs[j][i];
 	return *this;
 }
 
 Matrix& Matrix::operator-=(const Matrix& rhs) {
 	if(	this->rowCount() != rhs.rowCount()
-		|| this->columnCount() != rhs.columnCount()
+		|| this->colCount() != rhs.colCount()
 	) {
 		std::cerr << "ERROR - Matrix::operator-=(const Matrix& rhs)\n";
 		std::cerr << "\tthis dimensions != rhs dimensions\n";
 		return *this;
 	}
 	for(size_t j = 0;j < this->rowCount();++j)
-		for(size_t i = 0;i < this->columnCount();++i)
-			this->setAt(j, i, this->at(j,i) - rhs.at(j,i));
+		for(size_t i = 0;i < this->colCount();++i)
+			(*this)[j][i] -= rhs[j][i];
 	return *this;
 }
 
 Matrix& Matrix::operator*=(const Matrix& rhs) {
 	if(	this->rowCount() != rhs.rowCount()
-		|| this->columnCount() != rhs.columnCount()
+		|| this->colCount() != rhs.colCount()
 	) {
 		std::cerr << "ERROR - Matrix::operator*=(const Matrix& rhs)\n";
 		std::cerr << "\tthis dimensions != rhs dimensions\n";
@@ -118,15 +116,15 @@ Matrix& Matrix::operator*=(const Matrix& rhs) {
 	}
 
 	Matrix temp = Matrix(*this);
-	*this = Matrix(this->rowCount(), rhs.columnCount());
+	*this = Matrix(this->rowCount(), rhs.colCount());
 
-	for(size_t outCol = 0;outCol < rhs.columnCount();++outCol) {
+	for(size_t outCol = 0;outCol < rhs.colCount();++outCol) {
 		for(size_t row = 0;row < temp.rowCount();++row) {
 			double sum = 0.0;
-			for(size_t inCol = 0;inCol < temp.columnCount();++inCol) {
-				sum += temp.at(row,inCol) * rhs.at(inCol,outCol);
-			}
-			this->setAt(row,outCol,sum);
+			for(size_t inCol = 0;inCol < temp.colCount();++inCol)
+				sum += temp[row][inCol] * rhs[inCol][outCol];
+
+			(*this)[row][outCol] = sum;
 		}
 	}
 
@@ -135,8 +133,8 @@ Matrix& Matrix::operator*=(const Matrix& rhs) {
 
 Matrix& Matrix::operator*=(const double& rhs) {
 	for(size_t j = 0;j < this->rowCount();++j)
-		for(size_t i = 0;i < this->columnCount();++i)
-			this->setAt(j, i, this->at(j,i) * rhs);
+		for(size_t i = 0;i < this->colCount();++i)
+			(*this)[j][i] *= rhs;
 	return *this;
 }
 
@@ -147,18 +145,11 @@ Matrix Matrix::operator-() const {
 }
 
 Matrix Matrix::operator~() const {
-	Matrix ret = Matrix(*this);
-	double*** temp_data;
-	size_t temp_count;
+	Matrix ret = Matrix(this->colCount(), this->rowCount());
 
-	// swap columns and rows
-	temp_data = ret.data_rows;
-	ret.data_rows = ret.data_columns;
-	ret.data_columns = temp_data;
-
-	temp_count = ret.row_count;
-	ret.row_count = ret.column_count;
-	ret.column_count = temp_count;
+	for(size_t j = 0;j < ret.rowCount();++j)
+		for(size_t i = 0;i < ret.colCount();++i)
+			ret[j][i] = (*this)[i][j];
 
 	return ret;
 }
@@ -168,22 +159,22 @@ Matrix Matrix::operator~() const {
 std::ostream& operator<<(std::ostream& os, const Matrix& other) {
 	os << "[ <Matrix>\n";
 	size_t lastRow = other.rowCount() - 1;
-	size_t lastColumn = other.columnCount() - 1;
+	size_t lastColumn = other.colCount() - 1;
 	// print all but the last row
 	for(size_t j = 0;j < lastRow;++j) {
 		os << "[";
 		// print all but the last column
 		for(size_t i = 0;i < lastColumn;++i)
-			os << "\t" << other.at(j,i) << ",";
+			os << "\t" << other[j][i] << ",";
 		// print last column
-		os << "\t" << other.at(j,lastColumn) << "],\n";
+		os << "\t" << other[j][lastColumn] << "],\n";
 	}
 	// print last row
 	os << "[";
 	// print all but the last column
 	for(size_t i = 0;i < lastColumn;++i)
-		os << "\t" << other.at(lastRow,i) << ",";
+		os << "\t" << other[lastRow][i] << ",";
 	// print last column
-	os << "\t" << other.at(lastRow,lastColumn) << "]\n";
+	os << "\t" << other[lastRow][lastColumn] << "]\n";
 	return os << "] </Matrix>";
 }
