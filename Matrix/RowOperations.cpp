@@ -3,15 +3,15 @@
 void Matrix::RO_swp(const size_t& dest, const size_t& other) {
 	double temp;
 	for(size_t col = 0;col < this->colCount();++col) {
-		temp = this->at(dest, col);
-		this->setAt(dest, col, this->at(other, col));
-		this->setAt(other, col, temp);
+		temp = (*this)[dest][col];
+		(*this)[dest][col] = (*this)[other][col];
+		(*this)[other][col] = temp;
 	}
 }
 
 void Matrix::RO_add(const size_t& dest, const size_t& other) {
 	for(size_t col = 0;col < this->colCount();++col)
-		this->setAt(dest,col,this->at(dest,col) + this->at(other, col));
+		(*this)[dest][col] += (*this)[other][col];
 }
 
 void Matrix::RO_sub(const size_t& dest, const size_t& other) {
@@ -21,7 +21,7 @@ void Matrix::RO_sub(const size_t& dest, const size_t& other) {
 		return;
 	}
 	for(size_t col = 0;col < this->colCount();++col)
-		this->setAt(dest,col,this->at(dest,col) - this->at(other, col));
+		(*this)[dest][col] -= (*this)[other][col];
 }
 
 void Matrix::RO_mul(const size_t& dest, const double& scale) {
@@ -31,7 +31,7 @@ void Matrix::RO_mul(const size_t& dest, const double& scale) {
 		return;
 	}
 	for(size_t col = 0;col < this->colCount();++col)
-		this->setAt(dest,col,this->at(dest,col) * scale);
+		(*this)[dest][col] *= scale;
 }
 
 void Matrix::RO_div(const size_t& dest, const double& scale) {
@@ -41,5 +41,5 @@ void Matrix::RO_div(const size_t& dest, const double& scale) {
 		return;
 	}
 	for(size_t col = 0;col < this->colCount();++col)
-		this->setAt(dest,col,this->at(dest,col) / scale);
+		(*this)[dest][col] /= scale;
 }
