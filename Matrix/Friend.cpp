@@ -19,6 +19,9 @@ double determinant(const Matrix& matrix) {
 	double subDet;
 
 	for(size_t i = 0;i < matrix.colCount();++i) {
+		// if it's zero, go to the next one
+		if(matrix[0][i] == 0) continue;
+
 		// set up matrix sub for determinant
 		size_t subCol = 0;
 		for(;subCol < i;++subCol) {
