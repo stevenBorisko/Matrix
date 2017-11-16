@@ -68,7 +68,7 @@ public:
 	size_t colCount() const;
 	// gets deep copy of row p:index; allocs array
 	double* row(const size_t& index) const;
-	// gets deep copy of column p:index;; allocs array
+	// gets deep copy of column p:index; allocs array
 	double* col(const size_t& index) const;
 	// gets value at row p:rIndex column p:cIndex
 	double at(const size_t& rIndex, const size_t& cIndex) const;
@@ -78,6 +78,10 @@ public:
 		const size_t& cIndex,
 		const double& newNum
 	);
+
+	// Friend
+
+	friend double determinant(const Matrix& matrix);
 
 private:
 

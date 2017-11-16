@@ -14,12 +14,13 @@ PROGFILES = \
 	Matrix/Private.cpp \
 	Matrix/RowOperations.cpp \
 	Matrix/Trivial.cpp \
+	Matrix/Friend.cpp \
 	$(NULL)
 
 targets default: $(TARGETS)
 
-$(PROGFILES:.cpp=): main.o Matrix/Constructors.o Matrix/Operators.o Matrix/Private.o Matrix/RowOperations.o Matrix/Trivial.o
-	$(CC) -o execute main.o Matrix/Constructors.o Matrix/Operators.o Matrix/Private.o Matrix/RowOperations.o Matrix/Trivial.o
+$(PROGFILES:.cpp=): main.o Matrix/Constructors.o Matrix/Operators.o Matrix/Private.o Matrix/RowOperations.o Matrix/Trivial.o Matrix/Friend.o
+	$(CC) -o execute main.o Matrix/Constructors.o Matrix/Operators.o Matrix/Private.o Matrix/RowOperations.o Matrix/Trivial.o Matrix/Friend.o
 
 depend :
 	makedepend ${PROGFILES}
