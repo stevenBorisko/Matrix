@@ -19,8 +19,8 @@ Matrix& Matrix::Matrix::operator=(const Matrix& rhs) {
 		if(!rhs.rowCount() || !rhs.colCount())
 			return *this;
 
-		this->row_count = rhs.rowCount();
-		this->column_count = rhs.colCount();
+		this->setRowCount(rhs.rowCount());
+		this->setColCount(rhs.colCount());
 
 		this->data = Matrix::createMatrix(this->rowCount(), this->colCount());
 
@@ -107,11 +107,9 @@ Matrix& Matrix::operator-=(const Matrix& rhs) {
 }
 
 Matrix& Matrix::operator*=(const Matrix& rhs) {
-	if(	this->rowCount() != rhs.rowCount()
-		|| this->colCount() != rhs.colCount()
-	) {
+	if(this->colCount() != rhs.rowCount()) {
 		std::cerr << "ERROR - Matrix::operator*=(const Matrix& rhs)\n";
-		std::cerr << "\tthis dimensions != rhs dimensions\n";
+		std::cerr << "\tthis colCount != rhs rowCount\n";
 		return *this;
 	}
 

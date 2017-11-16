@@ -8,6 +8,6 @@ void Matrix::destroyMatrix() {
 		delete[] this->data;
 	}
 	this->data = nullptr;
-	this->row_count = 0;
-	this->column_count = 0;
+	this->setRowCount(0);
+	this->setColCount(0);
 }

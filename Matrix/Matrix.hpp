@@ -67,13 +67,17 @@ public:
 	// gets the number of columns in the matrix
 	size_t colCount() const;
 	// gets deep copy of row p:index; allocs array
-	double** row(const size_t& index) const;
+	double* row(const size_t& index) const;
 	// gets deep copy of column p:index;; allocs array
-	double** column(const size_t& index) const;
+	double* col(const size_t& index) const;
 	// gets value at row p:rIndex column p:cIndex
 	double at(const size_t& rIndex, const size_t& cIndex) const;
 	// sets value at row p:rIndex column p:cIndex to p:newNum
-	void setAt(const size_t& rIndex, const size_t& cIndex, const double& newNum);
+	void setAt(
+		const size_t& rIndex,
+		const size_t& cIndex,
+		const double& newNum
+	);
 
 private:
 
@@ -81,6 +85,11 @@ private:
 
 	// number of rows and columns in the matrix
 	size_t row_count, col_count;
+
+	// set the row and column count
+	// use with caution
+	void setRowCount(const size_t& newRC) { this->row_count = newRC; }
+	void setColCount(const size_t& newCC) { this->col_count = newCC; }
 
 	// frees v:data
 	void destroyMatrix();
