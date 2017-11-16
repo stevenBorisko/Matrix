@@ -81,7 +81,18 @@ public:
 
 	// Friend
 
+	// calculates the determinant of an m x m matrix
 	friend double determinant(const Matrix& matrix);
+	// TODO
+	// solves for x in Ax=b where p:A is an m x m matrix
+	// and p:b is an m x 1 matrix (vector)
+	// returns an m x 1 matrix that represents x
+	friend Matrix solve(const Matrix& A, const Matrix& b);
+	// takes a matrix of vectors and returns a vector orthogonal to them
+	// matrix must be m x (m-1), so, for example, you can have two columns
+	// of 3-D vectors and it will return an m x 1 matrix (vector) that is
+	// orthogonal to the two vectors
+	friend Matrix cross(const Matrix& vecs);
 
 private:
 
