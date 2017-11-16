@@ -152,6 +152,27 @@ Matrix Matrix::operator~() const {
 	return ret;
 }
 
+	// Relational
+
+bool Matrix::operator==(const Matrix& rhs) const {
+	if(	this->rowCount() != rhs.rowCount()
+		|| this->colCount() != rhs.colCount()) {
+		std::cerr << "ERROR - Matrix::operator==(const Matrix&) const\n";
+		std::cerr << "\tthis dimensions != rhs dimensions\n";
+		return false;
+	}
+
+	for(size_t j = 0;j < this->rowCount();++j)
+		for(size_t i = 0;i < this->colCount();++i)
+			if((*this)[j][i] != rhs[j][i])
+				return false;
+	return true;
+}
+
+bool Matrix::operator!=(const Matrix& rhs) const {
+	return !(*this == rhs);
+}
+
 	// ostream
 
 std::ostream& operator<<(std::ostream& os, const Matrix& other) {

@@ -44,6 +44,9 @@ public:
 	Matrix operator-() const;
 		// transpose
 	Matrix operator~() const;
+	// Relational
+	bool operator==(const Matrix& rhs) const;
+	bool operator!=(const Matrix& rhs) const;
 	// ostream
 	friend std::ostream& operator<<(std::ostream& os,const Matrix& other);
 
