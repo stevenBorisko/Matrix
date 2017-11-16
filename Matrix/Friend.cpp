@@ -28,7 +28,7 @@ double determinant(const Matrix& matrix) {
 			for(size_t k = 0;k < sub.colCount();++k)
 				sub[k][subCol] = matrix[k+1][subCol];
 		}
-		for(;subCol < matrix.colCount();++subCol) {
+		for(;subCol < sub.colCount();++subCol) {
 			for(size_t k = 0;k < sub.colCount();++k)
 				sub[k][subCol] = matrix[k+1][subCol+1];
 		}
