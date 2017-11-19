@@ -62,20 +62,14 @@ public:
 		const size_t& other,
 		const double& scale
 	);
-	// subtract: dest -= other
-	void RO_sub(const size_t& dest, const size_t& other);
-	// sub constant: dest += other * scale
-	void RO_subS(
-		const size_t& dest,
-		const size_t& other,
-		const double& scale
-	);
 	// multiply: dest *= scale
 	void RO_mul(const size_t& dest, const double& scale);
-	// divide: dest /= scale
-	void RO_div(const size_t& dest, const double& scale);
 	// pivot about a row
-	void pivot(const size_t& rIndex);
+	void RO_piv(const size_t& rIndex);
+	// Row Echelon Form
+	void RO_ref();
+	// Reduced Row Echelon Form
+	void RO_rref();
 
 	// Trivial Functions
 
@@ -83,10 +77,16 @@ public:
 	size_t rowCount() const;
 	// gets the number of columns in the matrix
 	size_t colCount() const;
-	// gets deep copy of row p:index; allocs array
-	double* row(const size_t& index) const;
-	// gets deep copy of column p:index; allocs array
-	double* col(const size_t& index) const;
+	// gets deep copy of row or column p:index
+	// mem must be allocated to the colCount or rowCount
+	// for row and col, respectively
+	double* row(double* mem, const size_t& index) const;
+	double* col(double* mem, const size_t& index) const;
+	// determine whether a row or column is all zeros
+	bool rowZero(const size_t& index) const;
+	bool colZero(const size_t& index) const;
+	// get the leading coefficient of a row
+	double leadCoef(const size_t& index) const;
 	// gets value at row p:rIndex column p:cIndex
 	double at(const size_t& rIndex, const size_t& cIndex) const;
 	// sets value at row p:rIndex column p:cIndex to p:newNum

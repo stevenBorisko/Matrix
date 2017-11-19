@@ -4,18 +4,37 @@ size_t Matrix::rowCount() const { return this->row_count; }
 
 size_t Matrix::colCount() const { return this->col_count; }
 
-double* Matrix::row(const size_t& index) const {
-	double* ret = new double[this->colCount()];
+double* Matrix::row(double* mem, const size_t& index) const {
 	for(size_t i = 0;i < this->colCount();++i)
-		ret[i] = (*this)[index][i];
-	return ret;
+		mem[i] = (*this)[index][i];
+	return mem;
 }
 
-double* Matrix::col(const size_t& index) const {
-	double* ret = new double[this->rowCount()];
-	for(size_t i = 0;i < this->rowCount();++i)
-		ret[i] = (*this)[i][index];
-	return ret;
+double* Matrix::col(double* mem, const size_t& index) const {
+	for(size_t j = 0;j < this->rowCount();++j)
+		mem[j] = (*this)[j][index];
+	return mem;
+}
+
+bool Matrix::rowZero(const size_t& index) const {
+	for(size_t i = 0;i < this->colCount();++i)
+		if((*this)[index][i] != 0.0)
+			return false;
+	return true;
+}
+
+bool Matrix::colZero(const size_t& index) const {
+	for(size_t j = 0;j < this->colCount();++j)
+		if((*this)[j][index] != 0.0)
+			return false;
+	return true;
+}
+
+double Matrix::leadCoef(const size_t& index) const {
+	for(size_t col = 0;col < this->colCount();++col)
+		if((*this)[index][col] != 0.0)
+			return (*this)[index][col];
+	return 0.0;
 }
 
 double Matrix::at(const size_t& rIndex, const size_t& cIndex) const {

@@ -21,24 +21,6 @@ void Matrix::RO_addS(
 		(*this)[dest][col] += (*this)[other][col] * scale;
 }
 
-void Matrix::RO_sub(const size_t& dest, const size_t& other) {
-	if(dest == other) {
-		std::cerr << "ERROR - Matrix::RO_sub(...)\n";
-		std::cerr << "\tdest == other\n";
-		return;
-	}
-	for(size_t col = 0;col < this->colCount();++col)
-		(*this)[dest][col] -= (*this)[other][col];
-}
-
-void Matrix::RO_subS(
-	const size_t& dest, const size_t& other, const double& scale
-) {
-	for(size_t col = 0;col < this->colCount();++col)
-		(*this)[dest][col] -= (*this)[other][col] * scale;
-}
-
-
 void Matrix::RO_mul(const size_t& dest, const double& scale) {
 	if(scale == 0.0) {
 		std::cerr << "ERROR - Matrix::RO_mul(...)\n";
@@ -46,20 +28,10 @@ void Matrix::RO_mul(const size_t& dest, const double& scale) {
 		return;
 	}
 	for(size_t col = 0;col < this->colCount();++col)
-		(*this)[dest][col] *= scale;
+		(*this)[dest][col] = ((*this)[dest][col] * scale) + 0.0;
 }
 
-void Matrix::RO_div(const size_t& dest, const double& scale) {
-	if(scale == 0.0) {
-		std::cerr << "ERROR - Matrix::RO_div(...)\n";
-		std::cerr << "\tscale == 0\n";
-		return;
-	}
-	for(size_t col = 0;col < this->colCount();++col)
-		(*this)[dest][col] /= scale;
-}
-
-void Matrix::pivot(const size_t& rIndex) {
+void Matrix::RO_piv(const size_t& rIndex) {
 	size_t cIndex = 0;
 
 	while(	cIndex < this->colCount()
@@ -75,14 +47,38 @@ void Matrix::pivot(const size_t& rIndex) {
 	const double initVal = (*this)[rIndex][cIndex];
 	double colVal;
 
-	this->RO_div(rIndex, initVal);
+	this->RO_mul(rIndex, 1.0 / initVal);
 
 	for(size_t j = 0;j < this->rowCount();++j) {
 		if(j == rIndex) continue;
 		colVal = (*this)[j][cIndex];
 		if(colVal == 0.0) continue;
-		this->RO_subS(j, rIndex, colVal);
+		colVal = -colVal;
+		this->RO_addS(j, rIndex, colVal);
 	}
 
 	this->RO_mul(rIndex, initVal);
+}
+
+void Matrix::RO_ref() {
+	size_t zeroRow = this->colCount();
+	for(size_t row = 0;row < zeroRow;++row) {
+		if(this->rowZero(row)) {
+			this->RO_swp(row--,--zeroRow);
+			continue;
+		}
+		this->RO_piv(row);
+	}
+}
+
+void Matrix::RO_rref() {
+	this->RO_ref();
+	size_t row;
+	for(size_t rowPO = this->rowCount();rowPO > 0;--rowPO) {
+		row = rowPO - 1;
+		if(this->rowZero(row)) continue;
+		double scale = 1.0 / (this->leadCoef(row));
+		this->RO_mul(row, scale);
+		this->RO_piv(row);
+	}
 }
