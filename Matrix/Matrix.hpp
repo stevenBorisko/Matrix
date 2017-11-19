@@ -56,12 +56,26 @@ public:
 	void RO_swp(const size_t& dest, const size_t& other);
 	// add: dest += other
 	void RO_add(const size_t& dest, const size_t& other);
+	// add constant: dest += other * scale
+	void RO_addS(
+		const size_t& dest,
+		const size_t& other,
+		const double& scale
+	);
 	// subtract: dest -= other
 	void RO_sub(const size_t& dest, const size_t& other);
+	// sub constant: dest += other * scale
+	void RO_subS(
+		const size_t& dest,
+		const size_t& other,
+		const double& scale
+	);
 	// multiply: dest *= scale
 	void RO_mul(const size_t& dest, const double& scale);
 	// divide: dest /= scale
 	void RO_div(const size_t& dest, const double& scale);
+	// pivot about a row
+	void pivot(const size_t& rIndex);
 
 	// Trivial Functions
 
