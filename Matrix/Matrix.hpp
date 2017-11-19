@@ -109,7 +109,7 @@ public:
 	friend Matrix M_cross(const Matrix& vecs);
 	// rank of a matrix assuming the matrix is in ref
 	friend size_t M_rank(const Matrix& matrix);
-	// returns whether the matrix is full rank
+	// returns whether the matrix is full rank assuming the matrix is in ref
 	friend bool M_fullRank(const Matrix& matrix);
 
 private:
@@ -129,6 +129,7 @@ private:
 
 	// allocates space for and zeroes out a 2-D matrix
 	// of p:rows rows and p:cols columns
+	// this is solely needed for constructors and operator=
 	static double** createMatrix(const size_t& rows, const size_t& cols) {
 		double** ret = new double*[rows];
 		for(size_t j = 0;j < rows;++j) {
