@@ -87,6 +87,8 @@ public:
 	bool colZero(const size_t& index) const;
 	// get the leading coefficient of a row
 	double leadCoef(const size_t& index) const;
+	// get the index of the lead coefficient in a row
+	size_t leadIndex(const size_t& index) const;
 	// gets value at row p:rIndex column p:cIndex
 	double at(const size_t& rIndex, const size_t& cIndex) const;
 	// sets value at row p:rIndex column p:cIndex to p:newNum
@@ -99,17 +101,16 @@ public:
 	// Friend
 
 	// calculates the determinant of an m x m matrix
-	friend double determinant(const Matrix& matrix);
-	// TODO
-	// solves for x in Ax=b where p:A is an m x m matrix
-	// and p:b is an m x 1 matrix (vector)
-	// returns an m x 1 matrix that represents x
-	friend Matrix solve(const Matrix& A, const Matrix& b);
+	friend double M_determinant(const Matrix& matrix);
 	// takes a matrix of vectors and returns a vector orthogonal to them
 	// matrix must be m x (m-1), so, for example, you can have two columns
-	// of 3-D vectors and it will return an m x 1 matrix (vector) that is
+	// of 3-D vectors and it will return an 3 x 1 matrix (vector) that is
 	// orthogonal to the two vectors
-	friend Matrix cross(const Matrix& vecs);
+	friend Matrix M_cross(const Matrix& vecs);
+	// rank of a matrix assuming the matrix is in ref
+	friend size_t M_rank(const Matrix& matrix);
+	// returns whether the matrix is full rank
+	friend bool M_fullRank(const Matrix& matrix);
 
 private:
 

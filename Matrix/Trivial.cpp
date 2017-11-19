@@ -37,6 +37,14 @@ double Matrix::leadCoef(const size_t& index) const {
 	return 0.0;
 }
 
+size_t Matrix::leadIndex(const size_t& index) const {
+	size_t col;
+	for(col = 0;col < this->colCount();++col)
+		if((*this)[index][col] != 0.0)
+			return col;
+	return col;
+}
+
 double Matrix::at(const size_t& rIndex, const size_t& cIndex) const {
 	return (*this)[rIndex][cIndex];
 }

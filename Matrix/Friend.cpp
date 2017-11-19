@@ -1,13 +1,13 @@
 #include "Matrix.hpp"
 
-double determinant(const Matrix& matrix) {
+double M_determinant(const Matrix& matrix) {
 	if(matrix.rowCount() != matrix.colCount()) {
-		std::cerr << "ERROR - double determinant(const Matrix&)\n";
+		std::cerr << "ERROR - double M_determinant(const Matrix&)\n";
 		std::cerr << "\tmatrix is not square\n";
 		return 0.0;
 	}
 	if(!matrix.rowCount()) {
-		std::cerr << "ERROR - double determinant(const Matrix&)\n";
+		std::cerr << "ERROR - double M_determinant(const Matrix&)\n";
 		std::cerr << "\tmatrix empty\n";
 		return 0.0;
 	}
@@ -33,25 +33,14 @@ double determinant(const Matrix& matrix) {
 			for(size_t k = 0;k < sub.colCount();++k)
 				sub[k][subCol] = matrix[k+1][subCol+1];
 		}
-		subDet = matrix[0][i] * determinant(sub);
+		subDet = matrix[0][i] * M_determinant(sub);
 		if(i & 1) ret -= subDet;
 		else ret += subDet;
 	}
 	return ret;
 }
 
-Matrix solve(const Matrix& A, const Matrix& b) {
-	if(b.colCount() != 1 || A.rowCount() != b.rowCount()) {
-		std::cerr << "ERROR - Matrix solve(const Matrix&, const Matrix&)\n";
-		std::cerr << "\tinvalid dimensions\n";
-		return Matrix();
-	}
-	// TODO
-
-	return Matrix();
-}
-
-Matrix cross(const Matrix& vecs) {
+Matrix M_cross(const Matrix& vecs) {
 	if(vecs.rowCount() != vecs.colCount() + 1) {
 		std::cerr << "ERROR - Matrix cross(const Matrix& vecs)\n";
 		std::cerr << "\tinvalid dimensions\n";
@@ -73,9 +62,23 @@ Matrix cross(const Matrix& vecs) {
 
 		std::cerr << "sub matrix:\n" << sub << "\n";
 
-		ret[i][0] = determinant(sub);
+		ret[i][0] = M_determinant(sub);
 		if(i & 1) ret[i][0] = (ret[i][0] * -1.0) + 0.0;
 	}
 
 	return ret;
+}
+
+size_t M_rank(const Matrix& matrix) {
+	size_t row;
+	for(row = 0;row < matrix.rowCount();++row)
+		if(matrix.rowZero(row))
+			return row;
+	return row;
+}
+
+bool M_fullRank(const Matrix& matrix) {
+	size_t minDim = matrix.rowCount();
+	if(matrix.colCount() < minDim) minDim = matrix.colCount();
+	return M_rank(matrix) == minDim;
 }
