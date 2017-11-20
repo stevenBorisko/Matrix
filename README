@@ -46,6 +46,13 @@ void RO_piv(const size_t& rIndex);
 void RO_ref();
 void RO_rref();
 
+Friend
+
+friend double M_determinant(const Matrix& matrix);
+friend Matrix M_cross(const Matrix& vecs);
+friend size_t M_rank(const Matrix& matrix);
+friend bool M_fullRank(const Matrix& matrix);
+
 Miscellaneous
 
 size_t rowCount() const;
