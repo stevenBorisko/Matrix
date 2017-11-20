@@ -65,6 +65,7 @@ bool rowZero(const size_t& index) const;
 bool colZero(const size_t& index) const;
 double leadCoef(const size_t& index) const;
 size_t leadIndex(const size_t& index) const;
+void reduceFPE();
 double at(const size_t& rIndex, const size_t& cIndex) const;
 void setAt(
 	const size_t& rIndex,

@@ -5,8 +5,8 @@
 #include <iostream>
 
 /*
-Matrix class that provides many standard matrix functions
-Not very memory efficient, so don't make huge matrices or a bunch of them
+Author: Steven Borisko
+Description: Matrix class that provides many standard matrix functions
 */
 class Matrix {
 public:
@@ -91,6 +91,8 @@ public:
 	double leadCoef(const size_t& index) const;
 	// get the index of the lead coefficient in a row
 	size_t leadIndex(const size_t& index) const;
+	// reduce floating point error: if a number is close to zero, make it zero
+	void reduceFPE();
 	// gets value at row p:rIndex column p:cIndex
 	double at(const size_t& rIndex, const size_t& cIndex) const;
 	// sets value at row p:rIndex column p:cIndex to p:newNum
@@ -99,6 +101,7 @@ public:
 		const size_t& cIndex,
 		const double& newNum
 	);
+	
 
 	// Friend
 
@@ -141,6 +144,17 @@ private:
 				ret[j][i] = 0.0;
 		}
 		return ret;
+	}
+
+	// almost* is used to reduce floating point error
+	static bool almostZero(const double& a) {
+		return Matrix::almostEquals(a,0.0);
+	}
+
+	static bool almostEquals(const double& a, const double& b) {
+		const double bound = 0.0000000001;
+		double diff = a - b;
+		return (-bound < diff) && (diff < bound);
 	}
 
 };

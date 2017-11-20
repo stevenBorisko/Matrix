@@ -45,6 +45,13 @@ size_t Matrix::leadIndex(const size_t& index) const {
 	return col;
 }
 
+void Matrix::reduceFPE() {
+	for(size_t j = 0;j < this->rowCount();++j)
+		for(size_t i = 0;i < this->colCount();++i)
+			if(Matrix::almostZero((*this)[j][i]))
+				(*this)[j][i] = 0.0;
+}
+
 double Matrix::at(const size_t& rIndex, const size_t& cIndex) const {
 	return (*this)[rIndex][cIndex];
 }
