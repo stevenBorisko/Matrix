@@ -64,8 +64,10 @@ public:
 	);
 	// multiply: dest *= scale
 	void RO_mul(const size_t& dest, const double& scale);
-	// pivot about a row
+	// pivot about a row at the first non-zero column
 	void RO_piv(const size_t& rIndex);
+	// pivot about a row at a given column
+	void RO_piv(const size_t& rIndex, const size_t& cIndex);
 	// Row Echelon Form
 	void RO_ref();
 	// Reduced Row Echelon Form
