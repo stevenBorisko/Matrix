@@ -82,3 +82,36 @@ bool M_fullRank(const Matrix& matrix) {
 	if(matrix.colCount() < minDim) minDim = matrix.colCount();
 	return M_rank(matrix) == minDim;
 }
+
+Matrix M_inverse(const Matrix& matrix) {
+	if(matrix.rowCount() != matrix.colCount()) {
+		std::cerr << "ERROR - M_inverse(...)\n";
+		std::cerr << "\nmatrix not square\t";
+		return Matrix();
+	}
+	size_t sqDim = matrix.rowCount();
+
+	Matrix augment = Matrix(sqDim,sqDim << 1);
+	Matrix ret = Matrix(sqDim);
+
+	size_t j,i;
+	for(j = 0;j < sqDim;++j) {
+		for(i = 0;i < sqDim;++i)
+			augment[j][i] = matrix[j][i];
+		augment[j][j + sqDim] = 1.0;
+	}
+
+	augment.RO_rref();
+
+	if(matrix[sqDim-1][sqDim-1] == 0.0) {
+		std::cerr << "ERROR - M_inverse(...)\n";
+		std::cerr << "\tmatrix not invertible\n";
+		return Matrix();
+	}
+
+	for(j = 0;j < sqDim;++j)
+		for(i = 0;i < sqDim;++i)
+			ret[j][i] = augment[j][i+sqDim];
+
+	return ret;
+}

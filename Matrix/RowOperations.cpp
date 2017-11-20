@@ -58,6 +58,7 @@ void Matrix::RO_piv(const size_t& rIndex, const size_t& cIndex) {
 	}
 
 	this->RO_mul(rIndex, 1.0 / initVal);
+	(*this)[rIndex][cIndex] = 1.0;
 
 	for(size_t j = 0;j < this->rowCount();++j) {
 		if(j == rIndex) continue;
@@ -102,13 +103,13 @@ void Matrix::RO_ref() {
 			this->RO_swp(pivotRow--,j);
 			continue;
 		}
-
 		this->RO_piv(pivotRow, pivotCol);
 	}
 }
 
 void Matrix::RO_rref() {
 	this->RO_ref();
+
 	size_t row;
 	for(size_t rowPO = this->rowCount();rowPO > 0;--rowPO) {
 		row = rowPO - 1;

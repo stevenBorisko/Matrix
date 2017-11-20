@@ -113,6 +113,7 @@ public:
 	friend size_t M_rank(const Matrix& matrix);
 	// returns whether the matrix is full rank assuming the matrix is in ref
 	friend bool M_fullRank(const Matrix& matrix);
+	friend Matrix M_inverse(const Matrix& matrix);
 
 private:
 

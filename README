@@ -42,6 +42,7 @@ void RO_addS(
 	const double& scale
 );
 void RO_mul(const size_t& dest, const double& scale);
+void RO_piv(const size_t&);
 void RO_piv(const size_t& rIndex);
 void RO_ref();
 void RO_rref();
