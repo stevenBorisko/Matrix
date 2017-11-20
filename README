@@ -1,0 +1,64 @@
+This is a struct called Matrix that is a matrix
+data structure for elements of type double
+
+This, like all the C data structure repositories on my Github,
+was made so that neither you nor I will ever have to rewrite any of them
+again for any other projects in the future.
+
+Functions of a Matrix (documentation in header file)
+
+Creating a Matrix
+
+Matrix();
+Matrix(const size_t&);
+Matrix(const size_t, const size_t&);
+
+Overloaded Operators
+
+Matrix& operator=(const Matrix& rhs);
+double* operator[](const size_t& rIndex) const;
+double* operator[](const size_t& rIndex);
+Matrix operator+(const Matrix& rhs) const;
+Matrix operator-(const Matrix& rhs) const;
+Matrix operator*(const Matrix& rhs) const;
+Matrix operator*(const double& rhs) const;
+Matrix& operator+=(const Matrix& rhs);
+Matrix& operator-=(const Matrix& rhs);
+Matrix& operator*=(const Matrix& rhs);
+Matrix& operator*=(const double& rhs);
+Matrix operator-() const;
+Matrix operator~() const;
+bool operator==(const Matrix& rhs) const;
+bool operator!=(const Matrix& rhs) const;
+friend std::ostream& operator<<(std::ostream& os,const Matrix& other);
+
+Row Operations
+
+void RO_swp(const size_t& dest, const size_t& other);
+void RO_add(const size_t& dest, const size_t& other);
+void RO_addS(
+	const size_t& dest,
+	const size_t& other,
+	const double& scale
+);
+void RO_mul(const size_t& dest, const double& scale);
+void RO_piv(const size_t& rIndex);
+void RO_ref();
+void RO_rref();
+
+Miscellaneous
+
+size_t rowCount() const;
+size_t colCount() const;
+double* row(double* mem, const size_t& index) const;
+double* col(double* mem, const size_t& index) const;
+bool rowZero(const size_t& index) const;
+bool colZero(const size_t& index) const;
+double leadCoef(const size_t& index) const;
+size_t leadIndex(const size_t& index) const;
+double at(const size_t& rIndex, const size_t& cIndex) const;
+void setAt(
+	const size_t& rIndex,
+	const size_t& cIndex,
+	const double& newNum
+);
