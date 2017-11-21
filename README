@@ -12,6 +12,7 @@ Creating a Matrix
 Matrix();
 Matrix(const size_t&);
 Matrix(const size_t, const size_t&);
+Matrix(const Matrix&);
 
 Overloaded Operators
 
