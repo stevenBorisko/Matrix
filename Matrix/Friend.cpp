@@ -1,4 +1,4 @@
-#include "Matrix.hpp"
+#include "../Matrix.hpp"
 
 double M_determinant(const Matrix& matrix) {
 	if(matrix.rowCount() != matrix.colCount()) {

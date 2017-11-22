@@ -1,4 +1,4 @@
-#include "Matrix.hpp"
+#include "../Matrix.hpp"
 
 void Matrix::destroyMatrix() {
 	if(this->data) {

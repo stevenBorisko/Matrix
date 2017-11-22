@@ -1,4 +1,4 @@
-#include "Matrix.hpp"
+#include "../Matrix.hpp"
 
 Matrix::Matrix():
 	data(nullptr), row_count(0), col_count(0)

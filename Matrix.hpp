@@ -340,6 +340,10 @@ private:
 		return Matrix::almostEquals(a,0.0);
 	}
 
+	static bool almostInt(const double& a) {
+		return Matrix::almostEquals(a, (double)(int)a);
+	}
+
 	static bool almostEquals(const double& a, const double& b) {
 		const double bound = 0.0000000001;
 		double diff = a - b;

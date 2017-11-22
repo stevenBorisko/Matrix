@@ -1,4 +1,4 @@
-#include "Matrix.hpp"
+#include "../Matrix.hpp"
 
 void Matrix::RO_swp(const size_t& dest, const size_t& other) {
 	double temp;

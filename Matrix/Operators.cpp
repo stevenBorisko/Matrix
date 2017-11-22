@@ -1,4 +1,4 @@
-#include "Matrix.hpp"
+#include "../Matrix.hpp"
 
 	// Assignment
 Matrix& Matrix::Matrix::operator=(const Matrix& rhs) {
