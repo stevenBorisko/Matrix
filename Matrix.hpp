@@ -4,6 +4,8 @@
 #include <cstdlib>
 #include <iostream>
 
+struct Vector;
+
 /*
 Author: Steven Borisko
 Description: Matrix class that provides many standard matrix functions
@@ -43,6 +45,7 @@ public:
 	Copy Constructor: deep copy
 	*/
 	Matrix(const Matrix& other);
+
 	/*
 	Destructor
 	Frees data by calling destroyMatrix();
@@ -171,18 +174,27 @@ public:
 	*/
 	size_t colCount() const;
 	/*
-	param	mem		(double*)
-		memory for the row/col to be copied into
 	param	index		(const size_t&)
 		index of the row/col to be copied
 	returns			(double*)
-		p:mem
+		a vector holding the data in the row/col
 
 	Get Row/Column
-	Performs a deep copy of a row/column into p:mem
+	Performs a deep copy of a row/column into a returned vector
 	*/
-	double* row(double* mem, const size_t& index) const;
-	double* col(double* mem, const size_t& index) const;
+	Vector rowVec(const size_t& index) const;
+	Vector colVec(const size_t& index) const;
+	/*
+	param	index	(const size_t&)
+		index of the row/col to be changed
+	param	vec	(const Vector&)
+		vector to be copied into this matrix
+
+	Set Row to Vector
+	Copies a vector's data into a given row/column
+	*/
+	void setRowVec(const size_t& index, const Vector& vec);
+	void setColVec(const size_t& index, const Vector& vec);
 	/*
 	param	index		(const size_t&)
 		index of the row/col to be inspected
@@ -272,7 +284,7 @@ public:
 	vectors and it will return a 3 x 1 matrix (vector) that is orthogonal to
 	the two vectors.
 	*/
-	friend Matrix M_cross(const Matrix& vecs);
+	friend Vector M_cross(const Matrix& vecs);
 	/*
 	param	matrix		(const Matrix&)
 		matrix from which the rank will be determined
@@ -350,6 +362,70 @@ private:
 		return (-bound < diff) && (diff < bound);
 	}
 
+};
+
+
+/*
+Description: Vector struct that inherits from struct Matrix
+	Vector is just a Matrix with one column
+A lot of the public functions for MAtrix don't make any sense
+	for vector, so don't use it if it goes against the documentation
+E.g.	don't call Vector cross(const Matrix& vecs) with a Vector as vecs
+*/
+struct Vector: public Matrix {
+
+	/*
+	Default Constructor
+	Creates an empty vector of dimension 0
+	*/
+	Vector(): Matrix() { }
+	/*
+	param	dim	(const size_t&)
+		number of elements in the vector
+
+	Custom Constructor:(dim n)
+	Creates a vector of dimension p:dim
+	*/
+	Vector(const size_t& dim): Matrix(dim,1) { }
+	/*
+	param	other	(const Vector&)
+		vector to be copied into this vector
+
+	Copy Constructor: deep copy
+	*/
+	Vector(const Vector& other): Matrix(other) { }
+	/*
+	param	other	(const Matrix&)
+		matrix to be copied into this vector
+
+	Copy Constructor: Matrix
+	Copies the first column of a matrix into this vector
+	*/
+	Vector(const Matrix& other): Vector(other.rowCount())
+	{ for(size_t i = 0;i < other.rowCount();++i) (*this)[i] = other[i][0]; }
+	/*
+	Destructor: Nothing to do here
+	*/
+	~Vector() { }
+
+	/*
+	Vectors have only one column, so these operators
+	retrieve the first column of the p:index'th row
+	*/
+	double operator[](const size_t& index) const
+	{ return (*this).Matrix::operator[](index)[0]; }
+	double& operator[](const size_t& index)
+	{ return (*this).Matrix::operator[](index)[0]; }
+
+	/*
+	Dimension of the Vector
+	Vectors have only one column, so the dimension of it
+	is denoted by its row count
+	*/
+	size_t dimension() const
+	{ return this->rowCount(); }
+
+private:
 };
 
 #endif

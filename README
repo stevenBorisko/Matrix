@@ -5,6 +5,8 @@ This, like all the C data structure repositories on my Github,
 was made so that neither you nor I will ever have to rewrite any of them
 again for any other projects in the future.
 
+	MATRIX
+
 Functions of a Matrix (documentation in header file)
 
 Creating a Matrix
@@ -51,7 +53,7 @@ void RO_rref();
 Friend
 
 friend double M_determinant(const Matrix& matrix);
-friend Matrix M_cross(const Matrix& vecs);
+friend Vector M_cross(const Matrix& vecs);
 friend size_t M_rank(const Matrix& matrix);
 friend bool M_fullRank(const Matrix& matrix);
 friend Matrix M_inverse(const Matrix&);
@@ -60,8 +62,10 @@ Miscellaneous
 
 size_t rowCount() const;
 size_t colCount() const;
-double* row(double* mem, const size_t& index) const;
-double* col(double* mem, const size_t& index) const;
+Vector rowVec(double* mem, const size_t& index) const;
+Vector colVec(double* mem, const size_t& index) const;
+void setRowVec(const size_t& index, const Vector& vec);
+void setColVec(const size_t& index, const Vector& vec);
 bool rowZero(const size_t& index) const;
 bool colZero(const size_t& index) const;
 double leadCoef(const size_t& index) const;
@@ -73,3 +77,28 @@ void setAt(
 	const size_t& cIndex,
 	const double& newNum
 );
+
+	VECTOR
+
+This is a struct called Vector that inherits
+from the struct Matrix (different repository
+on my profile).
+
+Functions of a Vector
+Looking at this header file and referencing
+the Matrix header file, these functions are
+very self-explanatory
+
+Creating a Vector
+Vector();
+Vector(const size_t&);
+Vector(const Vector& other);
+Vector(const Matrix& other);
+
+Operators that are overloaded from what already
+exists in Matrix
+double operator[](const size_t& index) const;
+double& operator[](const size_t& index);
+
+Miscellaneous
+size_t dimension() const;

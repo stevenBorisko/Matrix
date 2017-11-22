@@ -4,16 +4,28 @@ size_t Matrix::rowCount() const { return this->row_count; }
 
 size_t Matrix::colCount() const { return this->col_count; }
 
-double* Matrix::row(double* mem, const size_t& index) const {
+Vector Matrix::rowVec(const size_t& index) const {
+	Vector ret(this->colCount());
 	for(size_t i = 0;i < this->colCount();++i)
-		mem[i] = (*this)[index][i];
-	return mem;
+		ret[i] = (*this)[index][i];
+	return ret;
 }
 
-double* Matrix::col(double* mem, const size_t& index) const {
+Vector Matrix::colVec(const size_t& index) const {
+	Vector ret(this->rowCount());
 	for(size_t j = 0;j < this->rowCount();++j)
-		mem[j] = (*this)[j][index];
-	return mem;
+		ret[j] = (*this)[j][index];
+	return ret;
+}
+
+void Matrix::setRowVec(const size_t& index, const Vector& vec) {
+	for(size_t i = 0;i < this->colCount();++i)
+		(*this)[index][i] = vec[i];
+}
+
+void Matrix::setColVec(const size_t& index, const Vector& vec) {
+	for(size_t j = 0;j < this->rowCount();++j)
+		(*this)[j][index] = vec[j];
 }
 
 bool Matrix::rowZero(const size_t& index) const {

@@ -40,13 +40,13 @@ double M_determinant(const Matrix& matrix) {
 	return ret;
 }
 
-Matrix M_cross(const Matrix& vecs) {
+Vector M_cross(const Matrix& vecs) {
 	if(vecs.rowCount() != vecs.colCount() + 1) {
 		std::cerr << "ERROR - Matrix cross(const Matrix& vecs)\n";
 		std::cerr << "\tinvalid dimensions\n";
 		return Matrix();
 	}
-	Matrix ret(vecs.rowCount(),1);
+	Vector ret(vecs.rowCount());
 	Matrix sub(vecs.colCount());
 	for(size_t i = 0;i < vecs.rowCount();++i) {
 
@@ -62,8 +62,8 @@ Matrix M_cross(const Matrix& vecs) {
 
 		std::cerr << "sub matrix:\n" << sub << "\n";
 
-		ret[i][0] = M_determinant(sub);
-		if(i & 1) ret[i][0] = (ret[i][0] * -1.0) + 0.0;
+		ret[i] = M_determinant(sub);
+		if(i & 1) ret[i] = (ret[i] * -1.0) + 0.0;
 	}
 
 	return ret;
