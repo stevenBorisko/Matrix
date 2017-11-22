@@ -2,6 +2,7 @@
 #define MATRIX_H
 
 #include <cstdlib>
+#include <cmath>
 #include <iostream>
 
 struct Vector;
@@ -444,6 +445,18 @@ struct Vector: public Matrix {
 	*/
 	size_t dimension() const
 	{ return this->rowCount(); }
+	/*
+	Magnitude of the Vector
+	returns the square root of the dot product of itself and itself
+	*/
+	double magnitude() const 
+	{ return sqrt(abs(V_dot(*this,*this))); }
+	/*
+	Normalize the Vector
+	divides each element in the vector by the magnitude of the vector
+	*/
+	void normalize()
+	{ *this *= 1.0 / this->magnitude(); }
 	/*
 	param	v1	(const Vector&)
 		one vector in the dot product
