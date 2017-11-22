@@ -401,8 +401,10 @@ struct Vector: public Matrix {
 	Copy Constructor: Matrix
 	Copies the first column of a matrix into this vector
 	*/
-	Vector(const Matrix& other): Vector(other.rowCount())
-	{ for(size_t i = 0;i < other.rowCount();++i) (*this)[i] = other[i][0]; }
+	Vector(const Matrix& other): Vector(other.rowCount()) {
+		for(size_t i = 0;i < other.rowCount();++i)
+			(*this)[i] = other[i][0];
+	}
 	/*
 	Destructor: Nothing to do here
 	*/
@@ -442,6 +444,29 @@ struct Vector: public Matrix {
 	*/
 	size_t dimension() const
 	{ return this->rowCount(); }
+	/*
+	param	v1	(const Vector&)
+		one vector in the dot product
+	param	v2	(const Vector&)
+		the other vector in the dot product
+	returns		(double)
+		dot product of the two vectors
+
+	Dot Product
+	Calculates the dot product of two vectors
+	*/
+	double friend V_dot(const Vector& v1, const Vector& v2) {
+		const size_t dim = v1.dimension();
+		if(dim != v2.dimension()) {
+			std::cerr << "ERROR - double Vector::dot(...)\n";
+			std::cerr << "\tv1 dimension != v2 dimension\n";
+			return 0.0;
+		}
+		double sum = 0.0;
+		for(size_t i = 0;i < dim;++i)
+			sum += v1[i] * v2[i];
+		return sum;
+	}
 
 private:
 };
