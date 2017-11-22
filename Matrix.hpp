@@ -418,6 +418,24 @@ struct Vector: public Matrix {
 	{ return (*this).Matrix::operator[](index)[0]; }
 
 	/*
+	param	start	(const size_t&)
+		start index of the subvector
+	param	dist	(const size_t&)
+		number of elements to get (dimension of return value)
+	returns		(Vector)
+		Vector with elements starting at p:start and ending at
+		p:start + p:dist - 1
+
+	Get Sub-Vector
+	Retrieves p:dist elements starting at index p:start
+	*/
+	Vector subVec(const size_t& start, const size_t& dist) const {
+		Vector ret(dist);
+		for(size_t i = 0; i < dist; ++i)
+			ret[i] = (*this)[start + i];
+		return ret;
+	}
+	/*
 	Dimension of the Vector
 	Vectors have only one column, so the dimension of it
 	is denoted by its row count

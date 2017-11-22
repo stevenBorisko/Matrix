@@ -84,10 +84,7 @@ This is a struct called Vector that inherits
 from the struct Matrix (different repository
 on my profile).
 
-Functions of a Vector
-Looking at this header file and referencing
-the Matrix header file, these functions are
-very self-explanatory
+Functions of a Vector (documentation in header file)
 
 Creating a Vector
 Vector();
@@ -101,4 +98,5 @@ double operator[](const size_t& index) const;
 double& operator[](const size_t& index);
 
 Miscellaneous
+Vector subVec(const size_t& start, const size_t& dist) const;
 size_t dimension() const;
