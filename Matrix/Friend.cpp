@@ -60,8 +60,6 @@ Vector M_cross(const Matrix& vecs) {
 				sub[subRow][k] = vecs[subRow+1][k];
 		}
 
-		std::cerr << "sub matrix:\n" << sub << "\n";
-
 		ret[i] = M_determinant(sub);
 		if(i & 1) ret[i] = (ret[i] * -1.0) + 0.0;
 	}
