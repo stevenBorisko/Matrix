@@ -469,8 +469,27 @@ struct Vector: public Matrix {
 	Calculates the dot product of two vectors
 	*/
 	double friend V_dot(const Vector& v1, const Vector& v2) {
-		const size_t dim = v1.dimension();
-		if(dim != v2.dimension()) {
+		return V_dot(v1, v2, v2.dimension());
+	}
+	/*
+	param	v1	(const Vector&)
+		one vector in the dot product
+	param	v2	(const Vector&)
+		the other vector in the dot product
+	param	dim	(const size_t&)
+		how many products starting with the first to sum
+	returns		(double)
+		dot product of the two vectors
+
+	Dot Product up to a dimension
+	Calculates the dot product of two vectors up to a specified dimension
+	*/
+	double friend V_dot(
+		const Vector& v1,
+		const Vector& v2,
+		const size_t& dim
+	) {
+		if(v1.dimension() != v2.dimension()) {
 			std::cerr << "ERROR - double Vector::dot(...)\n";
 			std::cerr << "\tv1 dimension != v2 dimension\n";
 			return 0.0;

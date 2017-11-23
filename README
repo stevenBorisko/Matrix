@@ -100,3 +100,7 @@ double& operator[](const size_t& index);
 Miscellaneous
 Vector subVec(const size_t& start, const size_t& dist) const;
 size_t dimension() const;
+size_t magnitude() const;
+void normalize()
+double friend V_dot(const Vector& v1, const Vector& v2);
+double friend V_dot(const Vector& v1, const Vector& v2, const size_t& dim);
