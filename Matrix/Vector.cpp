@@ -31,7 +31,7 @@ Vector Vector::operator+(const Vector& rhs) const {
 
 Vector Vector::operator-(const Vector& rhs) const {
 	Vector ret(*this);
-	ret += rhs;
+	ret -= rhs;
 	return ret;
 }
 
