@@ -419,6 +419,20 @@ struct Vector: public Matrix {
 	{ return (*this).Matrix::operator[](index)[0]; }
 	double& operator[](const size_t& index)
 	{ return (*this).Matrix::operator[](index)[0]; }
+	Vector operator*(const Vector& rhs) const {
+		Vector ret(*this);
+		return (ret *= rhs);
+	}
+	Vector& operator*=(const double& rhs) {
+		for(size_t i = 0;i < this->dimension();++i)
+			(*this)[i] *= rhs;
+	}
+	Vector operator-() const {
+		Vector ret(this->dimension());
+		for(size_t i = 0;i < this->dimension();++i)
+			ret[i] = -(*this)[i];
+		return ret;
+	}
 
 	/*
 	param	start	(const size_t&)
