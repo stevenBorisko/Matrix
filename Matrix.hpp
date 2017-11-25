@@ -375,11 +375,13 @@ E.g.	don't call Vector cross(const Matrix& vecs) with a Vector as vecs
 */
 struct Vector: public Matrix {
 
+	// CONSTRUCTORS
+
 	/*
 	Default Constructor
 	Creates an empty vector of dimension 0
 	*/
-	Vector(): Matrix() { }
+	Vector();
 	/*
 	param	dim	(const size_t&)
 		number of elements in the vector
@@ -387,14 +389,14 @@ struct Vector: public Matrix {
 	Custom Constructor:(dim n)
 	Creates a vector of dimension p:dim
 	*/
-	Vector(const size_t& dim): Matrix(dim,1) { }
+	Vector(const size_t& dim);
 	/*
 	param	other	(const Vector&)
 		vector to be copied into this vector
 
 	Copy Constructor: deep copy
 	*/
-	Vector(const Vector& other): Matrix(other) { }
+	Vector(const Vector& other);
 	/*
 	param	other	(const Matrix&)
 		matrix to be copied into this vector
@@ -402,37 +404,29 @@ struct Vector: public Matrix {
 	Copy Constructor: Matrix
 	Copies the first column of a matrix into this vector
 	*/
-	Vector(const Matrix& other): Vector(other.rowCount()) {
-		for(size_t i = 0;i < other.rowCount();++i)
-			(*this)[i] = other[i][0];
-	}
+	Vector(const Matrix& other);
 	/*
 	Destructor: Nothing to do here
 	*/
-	~Vector() { }
+	~Vector();
+
+	// OPERATORS
 
 	/*
 	Vectors have only one column, so these operators
 	retrieve the first column of the p:index'th row
 	*/
-	double operator[](const size_t& index) const
-	{ return (*this).Matrix::operator[](index)[0]; }
-	double& operator[](const size_t& index)
-	{ return (*this).Matrix::operator[](index)[0]; }
-	Vector operator*(const Vector& rhs) const {
-		Vector ret(*this);
-		return (ret *= rhs);
-	}
-	Vector& operator*=(const double& rhs) {
-		for(size_t i = 0;i < this->dimension();++i)
-			(*this)[i] *= rhs;
-	}
-	Vector operator-() const {
-		Vector ret(this->dimension());
-		for(size_t i = 0;i < this->dimension();++i)
-			ret[i] = -(*this)[i];
-		return ret;
-	}
+	double operator[](const size_t& index) const;
+	double& operator[](const size_t& index);
+	Vector operator+(const Vector& rhs) const;
+	Vector operator-(const Vector& rhs) const;
+	Vector operator*(const double& rhs) const;
+	Vector& operator+=(const Vector& rhs);
+	Vector& operator-=(const Vector& rhs);
+	Vector& operator*=(const double& rhs);
+	Vector operator-() const;
+
+	// FUNCTIONS
 
 	/*
 	param	start	(const size_t&)
@@ -446,31 +440,26 @@ struct Vector: public Matrix {
 	Get Sub-Vector
 	Retrieves p:dist elements starting at index p:start
 	*/
-	Vector subVec(const size_t& start, const size_t& dist) const {
-		Vector ret(dist);
-		for(size_t i = 0; i < dist; ++i)
-			ret[i] = (*this)[start + i];
-		return ret;
-	}
+	Vector subVec(const size_t& start, const size_t& dist) const;
 	/*
 	Dimension of the Vector
 	Vectors have only one column, so the dimension of it
 	is denoted by its row count
 	*/
-	size_t dimension() const
-	{ return this->rowCount(); }
+	size_t dimension() const;
 	/*
 	Magnitude of the Vector
 	returns the square root of the dot product of itself and itself
 	*/
-	double magnitude() const 
-	{ return sqrt(abs(V_dot(*this,*this))); }
+	double magnitude() const;
 	/*
 	Normalize the Vector
 	divides each element in the vector by the magnitude of the vector
 	*/
-	void normalize()
-	{ *this *= 1.0 / this->magnitude(); }
+	void normalize();
+
+	// FRIEND
+
 	/*
 	param	v1	(const Vector&)
 		one vector in the dot product
@@ -482,9 +471,7 @@ struct Vector: public Matrix {
 	Dot Product
 	Calculates the dot product of two vectors
 	*/
-	double friend V_dot(const Vector& v1, const Vector& v2) {
-		return V_dot(v1, v2, v2.dimension());
-	}
+	double friend V_dot(const Vector& v1, const Vector& v2);
 	/*
 	param	v1	(const Vector&)
 		one vector in the dot product
@@ -502,17 +489,7 @@ struct Vector: public Matrix {
 		const Vector& v1,
 		const Vector& v2,
 		const size_t& dim
-	) {
-		if(v1.dimension() != v2.dimension()) {
-			std::cerr << "ERROR - double Vector::dot(...)\n";
-			std::cerr << "\tv1 dimension != v2 dimension\n";
-			return 0.0;
-		}
-		double sum = 0.0;
-		for(size_t i = 0;i < dim;++i)
-			sum += v1[i] * v2[i];
-		return sum;
-	}
+	);
 
 private:
 };
