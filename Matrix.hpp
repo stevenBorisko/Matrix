@@ -452,14 +452,14 @@ struct Vector: public Matrix {
 	returns the square root of the dot product of itself and itself
 	*/
 	double magnitude() const;
+
+	// FRIEND
+
 	/*
 	Normalize the Vector
 	divides each element in the vector by the magnitude of the vector
 	*/
-	void normalize();
-
-	// FRIEND
-
+	Vector friend V_norm(const Vector& vec);
 	/*
 	param	v1	(const Vector&)
 		one vector in the dot product

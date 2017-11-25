@@ -75,9 +75,9 @@ size_t Vector::dimension() const { return this->rowCount(); }
 
 double Vector::magnitude() const { return sqrt(abs(V_dot(*this,*this))); }
 
-void Vector::normalize() { *this *= 1.0 / this->magnitude(); }
-
 // FRIEND
+
+Vector V_norm(const Vector& vec) { return (vec * (1.0 / vec.magnitude())); }
 
 double V_dot(const Vector& v1, const Vector& v2) {
 	return V_dot(v1, v2, v1.dimension());
