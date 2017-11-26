@@ -474,6 +474,18 @@ struct Vector: public Matrix {
 	double friend V_dot(const Vector& v1, const Vector& v2);
 	/*
 	param	v1	(const Vector&)
+		initial point
+	param	v2	(const Vector&)
+		final point
+	returns		(double)
+		distance between the two points
+
+	Distance
+	Calculates the distance between two points
+	*/
+	double friend V_dist(const Vector& v1, const Vector& v2);
+	/*
+	param	v1	(const Vector&)
 		one vector in the dot product
 	param	v2	(const Vector&)
 		the other vector in the dot product

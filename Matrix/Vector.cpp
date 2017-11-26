@@ -83,6 +83,10 @@ double V_dot(const Vector& v1, const Vector& v2) {
 	return V_dot(v1, v2, v1.dimension());
 }
 
+double V_dist(const Vector& v1, const Vector& v2) {
+	return (v1 - v2).magnitude();
+}
+
 double V_dot(
 	const Vector& v1,
 	const Vector& v2,
