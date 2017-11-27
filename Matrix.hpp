@@ -334,6 +334,7 @@ private:
 	void destroyMatrix();
 
 //	//	STATIC		//	//
+public:
 
 	// allocates space for and zeroes out a 2-D matrix
 	// of p:rows rows and p:cols columns
