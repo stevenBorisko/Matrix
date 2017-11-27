@@ -104,6 +104,7 @@ void Matrix::RO_ref() {
 			continue;
 		}
 		this->RO_piv(pivotRow, pivotCol);
+		this->reduceFPE();
 	}
 }
 
@@ -117,5 +118,6 @@ void Matrix::RO_rref() {
 		double scale = 1.0 / (this->leadCoef(row));
 		this->RO_mul(row, scale);
 		this->RO_piv(row);
+		this->reduceFPE();
 	}
 }
