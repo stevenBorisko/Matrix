@@ -92,9 +92,9 @@ double V_dot(
 	const Vector& v2,
 	const size_t& dim
 ) {
-	if(v1.dimension() != v2.dimension()) {
+	if(dim > v1.dimension() || dim > v2.dimension()) {
 		std::cerr << "ERROR - double Vector::dot(...)\n";
-		std::cerr << "\tv1 dimension != v2 dimension\n";
+		std::cerr << "\tdim > v1 dimension | dim > v2 dimension\n";
 		return 0.0;
 	}
 	double sum = 0.0;
