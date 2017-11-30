@@ -73,7 +73,7 @@ Vector Vector::subVec(const size_t& start, const size_t& dist) const {
 
 size_t Vector::dimension() const { return this->rowCount(); }
 
-double Vector::magnitude() const { return sqrt(abs(V_dot(*this,*this))); }
+double Vector::magnitude() const { return sqrt(std::abs(V_dot(*this,*this))); }
 
 // FRIEND
 
