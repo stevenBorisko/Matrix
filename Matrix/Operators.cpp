@@ -176,6 +176,9 @@ bool Matrix::operator!=(const Matrix& rhs) const {
 	// ostream
 
 std::ostream& operator<<(std::ostream& os, const Matrix& other) {
+	if(!other.rowCount() || !other.colCount())
+		return os << "[ ]";
+
 	os << "[ <Matrix>\n";
 	size_t lastRow = other.rowCount() - 1;
 	size_t lastColumn = other.colCount() - 1;
